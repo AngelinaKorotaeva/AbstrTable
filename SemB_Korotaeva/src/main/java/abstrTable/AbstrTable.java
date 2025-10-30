@@ -39,13 +39,21 @@ public class AbstrTable<K extends Comparable<K>, V> implements IAbstrTable<K, V>
         valueNeniNull(value);
 
         Node<K, V> node = new Node<>(key, value);
-        boolean NovyPrvekUzExistue = false;
+        boolean aktualizacePrvka = false;
+
+        if (!jePrazdny() && value == najdi(key)) {
+            aktualizacePrvka = true;
+        }
+
         if (jePrazdny()) {
             root = node;
         } else {
             Node<K, V> current = root;
             while (current != null) {
                 int keyCislo = key.compareTo(current.key);
+                if (!aktualizacePrvka) {
+                    current.pocetPotomku++;
+                }
                 if (keyCislo > 0) {
                     if (current.right == null) {
                         current.right = node;
@@ -56,32 +64,10 @@ public class AbstrTable<K extends Comparable<K>, V> implements IAbstrTable<K, V>
                     if (current.left == null) {
                         current.left = node;
                         break;
-                    } 
+                    }
                     current = current.left;
                 } else {
                     current.value = value;
-                    NovyPrvekUzExistue = true;
-                    break;
-                }
-            }
-            if (!NovyPrvekUzExistue) {
-                current = root;
-                while (current != null) {
-                    int keyCislo = key.compareTo(current.key);
-                    current.pocetPotomku++;
-                    if (keyCislo > 0) {
-                        if (current.right == null) {
-                            break;
-                        } 
-                        current = current.right;
-                    } else if (keyCislo < 0) {
-                        if (current.left == null) {
-                            break;
-                        } 
-                        current = current.left;
-                    } else {
-                        break;
-                    }
                 }
             }
         }
@@ -92,16 +78,19 @@ public class AbstrTable<K extends Comparable<K>, V> implements IAbstrTable<K, V>
         prazdnySeznam();
         keyNeniNull(key);
 
-        Node<K, V> odebranyPrvek = root;
-
+        if (najdi(key) == null) {
+            return null;
+        }
         if (root.right == null && root.left == null) {
             zrus();
         }
 
         Node<K, V> current = root;
         Node<K, V> parentCurrent = root;
+
         while (current != null) {
             int keyCislo = key.compareTo(current.key);
+            current.pocetPotomku--;
             if (keyCislo > 0) {
                 parentCurrent = current;
                 current = current.right;
@@ -109,7 +98,6 @@ public class AbstrTable<K extends Comparable<K>, V> implements IAbstrTable<K, V>
                 parentCurrent = current;
                 current = current.left;
             } else {
-
                 if (current.right == null && current.left == null) {
                     if (parentCurrent.right == current) {
                         parentCurrent.right = null;
@@ -120,29 +108,50 @@ public class AbstrTable<K extends Comparable<K>, V> implements IAbstrTable<K, V>
                     }
                 } else {
                     boolean parentMaChild = true;
-                    if (current.right != null && current.left != null) {
+                    Node<K, V> child = current;
 
-                        while (parentMaChild) {
-                            K keyCurrent = current.key;
-
-                            if (current.right == null) {
-
+                    while (parentMaChild) {
+                        if (current.right != null && current.left != null) {
+                            boolean nextZmena = false;
+                            AbstrLIFO<Node<K, V>> lifo = new AbstrLIFO<>();
+                            Node<K, V> node = root;
+                            while (node != null || !lifo.jePrazdny()) {
+                                while (node != null) {
+                                    lifo.vloz(node);
+                                    node = current.left;
+                                }
+                                Node<K, V> data = lifo.odeber();
+                                if (nextZmena) {
+                                    current.value = data.value;
+                                    child = data;
+                                    break;
+                                }
+                                if (data == current) {
+                                    nextZmena = true;
+                                }
+                                node = data.right;
                             }
-                        }
-                    } else {
-                        while (parentMaChild) {
-                            K keyCurrent = current.key;
 
+                        } else if (current.right != null || current.left != null) {
                             if (current.right == null) {
-
+                                child = current.left;
+                                current.value = current.left.value;
+                                current = child;
+                            } else {
+                                child = current.right;
+                                current.value = current.right.value;
+                                current = child;
                             }
+                        } else {
+                            parentMaChild = false;
                         }
                     }
+                    break;
                 }
             }
         }
 
-        return odebranyPrvek.value;
+        return null;
     }
 
     @Override
@@ -158,7 +167,7 @@ public class AbstrTable<K extends Comparable<K>, V> implements IAbstrTable<K, V>
     @Override
     public V select(int k) {
         int pozice = 0;
-
+        
         AbstrLIFO<Node<K, V>> lifo = new AbstrLIFO<>();
         Node<K, V> current = root;
         while (current != null || !lifo.jePrazdny()) {
