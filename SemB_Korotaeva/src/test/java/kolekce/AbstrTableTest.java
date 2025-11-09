@@ -214,6 +214,19 @@ public class AbstrTableTest {
             TestClass[] expected = {T3, T5, T8};
                      
             assertArrayEquals(expected, result);
+            
+            instance.odeber(T8.getA());
+            
+            TestClass[] result2 = new TestClass[2];     
+            it = instance.iterator(ETypProhl.HLOUBKA);
+            i = 0;
+            while (it.hasNext()) {
+                result2[i] = (TestClass) it.next();
+                i++;
+            }
+            
+            TestClass[] expected2 = {T3, T5};
+            assertArrayEquals(expected2, result2);
         } catch (Exception ex) {
             fail();
         }
@@ -239,6 +252,180 @@ public class AbstrTableTest {
             
             TestClass[] expected = {T1, T5, T8};
                      
+            assertArrayEquals(expected, result);
+        } catch (Exception ex) {
+            fail();
+        }
+    }
+    
+    @Test
+    public void test_03_Odeber() {
+        try {
+            AbstrTable<Integer, TestClass> instance = new AbstrTable<>();
+            instance.vloz(T2.getA(), T2);
+            instance.vloz(T5.getA(), T5);
+            instance.vloz(T8.getA(), T8);
+            instance.vloz(T9.getA(), T9);
+            instance.odeber(T8.getA());
+            
+            TestClass[] result = new TestClass[3];     
+            Iterator it = instance.iterator(ETypProhl.HLOUBKA);
+            int i = 0;
+            while (it.hasNext()) {
+                result[i] = (TestClass) it.next();
+                i++;
+            }
+            
+            TestClass[] expected = {T2, T5, T9};
+                     
+            assertArrayEquals(expected, result);
+        } catch (Exception ex) {
+            fail();
+        }
+    }
+    
+    @Test
+    public void test_04_Odeber() {
+        try {
+            AbstrTable<Integer, TestClass> instance = new AbstrTable<>();
+            instance.vloz(T2.getA(), T2);
+            instance.vloz(T5.getA(), T5);
+            instance.vloz(T8.getA(), T8);
+            instance.odeber(T5.getA());
+            
+            TestClass[] result = new TestClass[2];     
+            Iterator it = instance.iterator(ETypProhl.SIRKA);
+            int i = 0;
+            while (it.hasNext()) {
+                result[i] = (TestClass) it.next();
+                i++;
+            }
+            
+            TestClass[] expected = {T2, T8};
+                     
+            assertArrayEquals(expected, result);
+        } catch (Exception ex) {
+            fail();
+        }
+    }
+    
+    @Test
+    public void test_05_Odeber() {
+        try {
+            AbstrTable<Integer, TestClass> instance = new AbstrTable<>();
+            instance.vloz(T5.getA(), T5);
+            instance.vloz(T2.getA(), T2);
+            instance.vloz(T8.getA(), T8);
+            instance.vloz(T9.getA(), T9);
+            instance.vloz(T4.getA(), T4);
+            
+            instance.odeber(T5.getA());
+            instance.odeber(T8.getA());
+            
+            TestClass[] result = new TestClass[3];     
+            Iterator it = instance.iterator(ETypProhl.HLOUBKA);
+            int i = 0;
+            while (it.hasNext()) {
+                result[i] = (TestClass) it.next();
+                i++;
+            }
+            
+            TestClass[] expected = {T2, T4, T9};
+            assertArrayEquals(expected, result);
+            
+            instance.odeber(T4.getA());
+            TestClass[] result2 = new TestClass[2];     
+            it = instance.iterator(ETypProhl.HLOUBKA);
+            i = 0;
+            while (it.hasNext()) {
+                result2[i] = (TestClass) it.next();
+                i++;
+            }
+            
+            TestClass[] expected2 = {T2, T9};
+            assertArrayEquals(expected2, result2);
+        } catch (Exception ex) {
+            fail();
+        }
+    }
+    
+    @Test
+    public void test_06_Odeber() {
+        try {
+            AbstrTable<Integer, TestClass> instance = new AbstrTable<>();
+            instance.vloz(T5.getA(), T5);
+            instance.vloz(T4.getA(), T4);
+            instance.vloz(T8.getA(), T8);
+            instance.vloz(T9.getA(), T9);
+            instance.vloz(T2.getA(), T2);
+            instance.vloz(T7.getA(), T7);
+            
+            instance.odeber(T4.getA());
+            
+            TestClass[] result = new TestClass[5];     
+            Iterator it = instance.iterator(ETypProhl.HLOUBKA);
+            int i = 0;
+            while (it.hasNext()) {
+                result[i] = (TestClass) it.next();
+                i++;
+            }
+            
+            TestClass[] expected = {T2, T5, T7, T8, T9};
+            assertArrayEquals(expected, result);
+            
+        } catch (Exception ex) {
+            fail();
+        }
+    }
+    
+    @Test
+    public void test_07_Odeber() {
+        try {
+            AbstrTable<Integer, TestClass> instance = new AbstrTable<>();
+            instance.vloz(T5.getA(), T5);
+            instance.vloz(T1.getA(), T1);
+            instance.vloz(T3.getA(), T3);
+            instance.vloz(T4.getA(), T4);
+            instance.vloz(T2.getA(), T2);
+            
+            instance.odeber(T1.getA());
+            
+            TestClass[] result = new TestClass[4];     
+            Iterator it = instance.iterator(ETypProhl.HLOUBKA);
+            int i = 0;
+            while (it.hasNext()) {
+                result[i] = (TestClass) it.next();
+                i++;
+            }
+            
+            TestClass[] expected = {T2, T3, T4, T5};
+            assertArrayEquals(expected, result);
+        } catch (Exception ex) {
+            fail();
+        }
+    }
+    
+    @Test
+    public void test_08_Odeber() {
+        try {
+            AbstrTable<Integer, TestClass> instance = new AbstrTable<>();
+            instance.vloz(T5.getA(), T5);
+            instance.vloz(T2.getA(), T2);
+            instance.vloz(T3.getA(), T3);
+            instance.vloz(T4.getA(), T4);
+            instance.vloz(T1.getA(), T1);
+            
+            instance.odeber(T2.getA());
+            
+            TestClass[] result = new TestClass[4];     
+            Iterator it = instance.iterator(ETypProhl.HLOUBKA);
+            int i = 0;
+            while (it.hasNext()) {
+                result[i] = (TestClass) it.next();
+                i++;
+            }
+            
+            TestClass[] expected = {T1, T3, T4, T5};
             assertArrayEquals(expected, result);
         } catch (Exception ex) {
             fail();

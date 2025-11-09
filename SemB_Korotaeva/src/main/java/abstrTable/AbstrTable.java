@@ -84,33 +84,36 @@ public class AbstrTable<K extends Comparable<K>, V> implements IAbstrTable<K, V>
         if (root.right == null && root.left == null) {
             zrus();
         }
+        Node<K, V> odebranyPrvek = null;
 
         Node<K, V> current = root;
-        Node<K, V> parentCurrent = root;
+        Node<K, V> parent = root;
 
         while (current != null) {
             int keyCislo = key.compareTo(current.key);
             current.pocetPotomku--;
             if (keyCislo > 0) {
-                parentCurrent = current;
+                parent = current;
                 current = current.right;
             } else if (keyCislo < 0) {
-                parentCurrent = current;
+                parent = current;
                 current = current.left;
             } else {
-                if (current.right == null && current.left == null) {
-                    if (parentCurrent.right == current) {
-                        parentCurrent.right = null;
-                        return current.value;
-                    } else {
-                        parentCurrent.left = null;
-                        return current.value;
-                    }
-                } else {
-                    boolean parentMaChild = true;
+                odebranyPrvek = current;
+                boolean parentMaChild = true;
+                while (parentMaChild) {
                     Node<K, V> child = current;
-
-                    while (parentMaChild) {
+                    if (current.right == null && current.left == null) {
+                        if (parent.right == current) {
+                            parent.right = null;
+                            parent.pocetPotomku--;
+                            return odebranyPrvek.value;
+                        } else {
+                            parent.left = null;
+                            parent.pocetPotomku--;
+                            return odebranyPrvek.value;
+                        }
+                    } else {
                         if (current.right != null && current.left != null) {
                             boolean nextZmena = false;
                             AbstrLIFO<Node<K, V>> lifo = new AbstrLIFO<>();
@@ -118,12 +121,14 @@ public class AbstrTable<K extends Comparable<K>, V> implements IAbstrTable<K, V>
                             while (node != null || !lifo.jePrazdny()) {
                                 while (node != null) {
                                     lifo.vloz(node);
-                                    node = current.left;
+                                    node = node.left;
                                 }
                                 Node<K, V> data = lifo.odeber();
                                 if (nextZmena) {
+                                    parent = parentPrvka(data);
                                     current.value = data.value;
-                                    child = data;
+                                    current.key = data.key;
+                                    current = data;
                                     break;
                                 }
                                 if (data == current) {
@@ -131,26 +136,58 @@ public class AbstrTable<K extends Comparable<K>, V> implements IAbstrTable<K, V>
                                 }
                                 node = data.right;
                             }
-
                         } else if (current.right != null || current.left != null) {
                             if (current.right == null) {
                                 child = current.left;
-                                current.value = current.left.value;
-                                current = child;
+                                if (parent.left == current) {
+                                    parent.left = child;
+                                    parent.pocetPotomku--;
+                                } else {
+                                    parent.right = child;
+                                    parent.pocetPotomku--;
+                                }
+                                if (child.left == null && child.right == null) {
+                                    current.left = null;
+                                }
+                                return odebranyPrvek.value;
                             } else {
                                 child = current.right;
-                                current.value = current.right.value;
-                                current = child;
+                                if (parent.left == current) {
+                                    parent.left = child;
+                                } else {
+                                    parent.right = child;
+                                }
+                                if (child.left == null && child.right == null) {
+                                    current.right = null;
+                                }
+                                return odebranyPrvek.value;
                             }
-                        } else {
-                            parentMaChild = false;
                         }
                     }
-                    break;
                 }
             }
         }
 
+        return null;
+    }
+
+    private Node<K, V> parentPrvka(Node<K, V> prvek) {
+        Node<K, V> novyParent = root;
+
+        Node<K, V> node = root;
+
+        while (node != null) {
+            int keyCislo = prvek.key.compareTo(node.key);
+            if (keyCislo > 0) {
+                novyParent = node;
+                node = node.right;
+            } else if (keyCislo < 0) {
+                novyParent = node;
+                node = node.left;
+            } else {
+                return novyParent;
+            }
+        }
         return null;
     }
 
@@ -167,7 +204,7 @@ public class AbstrTable<K extends Comparable<K>, V> implements IAbstrTable<K, V>
     @Override
     public V select(int k) {
         int pozice = 0;
-        
+
         AbstrLIFO<Node<K, V>> lifo = new AbstrLIFO<>();
         Node<K, V> current = root;
         while (current != null || !lifo.jePrazdny()) {
@@ -297,11 +334,9 @@ public class AbstrTable<K extends Comparable<K>, V> implements IAbstrTable<K, V>
         private int pocetPotomku;
 
         public Node(K key, V value) {
+            super();
             this.key = key;
             this.value = value;
-            right = null;
-            left = null;
-            pocetPotomku = 1;
         }
 
         public Node() {
