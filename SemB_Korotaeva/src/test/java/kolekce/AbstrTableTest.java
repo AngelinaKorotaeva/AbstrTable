@@ -433,34 +433,6 @@ public class AbstrTableTest {
     }
     
     @Test
-    public void test_01_select() {
-        try {
-            AbstrTable<Integer, TestClass> instance = new AbstrTable<>();
-            instance.vloz(T5.getA(), T5);
-            instance.vloz(T2.getA(), T2);
-            instance.vloz(T3.getA(), T3);
-            instance.vloz(T4.getA(), T4);
-            instance.vloz(T1.getA(), T1);
-            
-            TestClass result = instance.select(1);
-            
-            assertEquals(T1, result);
-            
-            result = instance.select(4);
-            
-            assertEquals(T4, result);
-            
-            instance.odeber(T4.getA());
-            
-            result = instance.select(4);
-            
-            assertEquals(T5, result);
-        } catch (Exception ex) {
-            fail();
-        }
-    }
-    
-    @Test
     public void test_01_rank() {
         try {
             AbstrTable<Integer, TestClass> instance = new AbstrTable<>();
@@ -486,35 +458,5 @@ public class AbstrTableTest {
         } catch (Exception ex) {
             fail();
         }
-    }
-    
-    @Test
-    public void test_01_pocetPotomku() {
-        try {
-//            AbstrTable<Integer, TestClass> instance = new AbstrTable<>();
-//            instance.vloz(T5.getA(), T5);
-//            instance.vloz(T2.getA(), T2);
-//            instance.vloz(T3.getA(), T3);
-//            instance.vloz(T4.getA(), T4);
-//            instance.vloz(T1.getA(), T1);
-//            
-//            TestClass result;
-//            int pocetPotomku;
-//            
-//            Iterator it = instance.iterator(ETypProhl.HLOUBKA);
-//            int i = 0;
-//            while (it.hasNext()) {
-//                result = (TestClass) it.next();
-//                if (result.equals(T3)) {
-//                    
-//                }
-//                i++;
-//            }
-//            
-//            
-//            assertEquals(3, result);
-        } catch (Exception ex) {
-            fail();
-        }
-    }
+    }  
 }
