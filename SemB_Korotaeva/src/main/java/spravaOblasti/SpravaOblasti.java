@@ -4,11 +4,7 @@ import abstrDoubleList.AbstrDoubleList;
 import abstrDoubleList.IAbstrDoubleList;
 import spravaZaznamu.Zaznam;
 import enumClass.EnumPozice;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.function.Consumer;
 
@@ -82,20 +78,6 @@ public class SpravaOblasti implements ISpravaOblasti {
             zrus();
         }
         return odebranaOblast;
-    }
-
-    public void automat(String soubor) {
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(soubor));
-            String radek1, radek2, radek3;
-            while ((radek1 = reader.readLine()) != null
-                    && (radek2 = reader.readLine()) != null
-                    && (radek3 = reader.readLine()) != null) {
-                vlozZaznam(new Zaznam(Integer.parseInt(radek2), radek3));
-            }
-        } catch (IOException | NumberFormatException ex) {
-            error(ex.getMessage());
-        }
     }
 
     @Override
