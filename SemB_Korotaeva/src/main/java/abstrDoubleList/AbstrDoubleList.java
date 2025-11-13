@@ -120,6 +120,8 @@ public class AbstrDoubleList<T> implements IAbstrDoubleList<T> {
         aktualniNenastaven();
         if (aktualni.naslednik != null) {
             aktualni = aktualni.naslednik;
+        } else {
+            throw new NullPointerException();
         }
         return aktualni.data;
     }
@@ -130,6 +132,8 @@ public class AbstrDoubleList<T> implements IAbstrDoubleList<T> {
         aktualniNenastaven();
         if (aktualni.predchudce != null) {
             aktualni = aktualni.predchudce;
+        } else {
+            throw new NullPointerException();
         }
         return aktualni.data;
     }
