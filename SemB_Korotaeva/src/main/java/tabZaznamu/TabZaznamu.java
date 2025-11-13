@@ -35,7 +35,7 @@ public class TabZaznamu implements ITabZaznamu{
 
     @Override
     public Iterator vytvorIterator(ETypProhl typ) {
-        return table.iterator(typ);
+        return table.vytvorIterator(typ);
     }
 
     @Override

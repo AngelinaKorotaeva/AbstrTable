@@ -60,5 +60,5 @@ public interface IAbstrTable <K extends Comparable<K>, V>{
      * @param typ
      * @return iterator podle typu.
      */
-    Iterator iterator(ETypProhl typ);
+    Iterator vytvorIterator(ETypProhl typ);
 }

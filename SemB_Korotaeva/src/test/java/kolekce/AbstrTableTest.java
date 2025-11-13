@@ -100,7 +100,7 @@ public class AbstrTableTest {
             instance.vloz(T3.getA(), T3);
             instance.vloz(T1.getA(), T1);
             TestClass[] result = new TestClass[4];     
-            Iterator it = instance.iterator(ETypProhl.HLOUBKA);
+            Iterator it = instance.vytvorIterator(ETypProhl.HLOUBKA);
             int i = 0;
             while (it.hasNext()) {
                 result[i] = (TestClass) it.next();
@@ -126,7 +126,7 @@ public class AbstrTableTest {
             instance.vloz(T9.getA(), T9);
             instance.vloz(T2.getA(), T2);
             TestClass[] result = new TestClass[6];     
-            Iterator it = instance.iterator(ETypProhl.HLOUBKA);
+            Iterator it = instance.vytvorIterator(ETypProhl.HLOUBKA);
             int i = 0;
             while (it.hasNext()) {
                 result[i] = (TestClass) it.next();
@@ -204,7 +204,7 @@ public class AbstrTableTest {
             instance.odeber(T1.getA());
             
             TestClass[] result = new TestClass[3];     
-            Iterator it = instance.iterator(ETypProhl.HLOUBKA);
+            Iterator it = instance.vytvorIterator(ETypProhl.HLOUBKA);
             int i = 0;
             while (it.hasNext()) {
                 result[i] = (TestClass) it.next();
@@ -218,7 +218,7 @@ public class AbstrTableTest {
             instance.odeber(T8.getA());
             
             TestClass[] result2 = new TestClass[2];     
-            it = instance.iterator(ETypProhl.HLOUBKA);
+            it = instance.vytvorIterator(ETypProhl.HLOUBKA);
             i = 0;
             while (it.hasNext()) {
                 result2[i] = (TestClass) it.next();
@@ -243,7 +243,7 @@ public class AbstrTableTest {
             instance.odeber(T3.getA());
             
             TestClass[] result = new TestClass[3];     
-            Iterator it = instance.iterator(ETypProhl.HLOUBKA);
+            Iterator it = instance.vytvorIterator(ETypProhl.HLOUBKA);
             int i = 0;
             while (it.hasNext()) {
                 result[i] = (TestClass) it.next();
@@ -269,7 +269,7 @@ public class AbstrTableTest {
             instance.odeber(T8.getA());
             
             TestClass[] result = new TestClass[3];     
-            Iterator it = instance.iterator(ETypProhl.HLOUBKA);
+            Iterator it = instance.vytvorIterator(ETypProhl.HLOUBKA);
             int i = 0;
             while (it.hasNext()) {
                 result[i] = (TestClass) it.next();
@@ -294,7 +294,7 @@ public class AbstrTableTest {
             instance.odeber(T5.getA());
             
             TestClass[] result = new TestClass[2];     
-            Iterator it = instance.iterator(ETypProhl.SIRKA);
+            Iterator it = instance.vytvorIterator(ETypProhl.SIRKA);
             int i = 0;
             while (it.hasNext()) {
                 result[i] = (TestClass) it.next();
@@ -323,7 +323,7 @@ public class AbstrTableTest {
             instance.odeber(T8.getA());
             
             TestClass[] result = new TestClass[3];     
-            Iterator it = instance.iterator(ETypProhl.HLOUBKA);
+            Iterator it = instance.vytvorIterator(ETypProhl.HLOUBKA);
             int i = 0;
             while (it.hasNext()) {
                 result[i] = (TestClass) it.next();
@@ -335,7 +335,7 @@ public class AbstrTableTest {
             
             instance.odeber(T4.getA());
             TestClass[] result2 = new TestClass[2];     
-            it = instance.iterator(ETypProhl.HLOUBKA);
+            it = instance.vytvorIterator(ETypProhl.HLOUBKA);
             i = 0;
             while (it.hasNext()) {
                 result2[i] = (TestClass) it.next();
@@ -363,7 +363,7 @@ public class AbstrTableTest {
             instance.odeber(T4.getA());
             
             TestClass[] result = new TestClass[5];     
-            Iterator it = instance.iterator(ETypProhl.HLOUBKA);
+            Iterator it = instance.vytvorIterator(ETypProhl.HLOUBKA);
             int i = 0;
             while (it.hasNext()) {
                 result[i] = (TestClass) it.next();
@@ -391,7 +391,7 @@ public class AbstrTableTest {
             instance.odeber(T1.getA());
             
             TestClass[] result = new TestClass[4];     
-            Iterator it = instance.iterator(ETypProhl.HLOUBKA);
+            Iterator it = instance.vytvorIterator(ETypProhl.HLOUBKA);
             int i = 0;
             while (it.hasNext()) {
                 result[i] = (TestClass) it.next();
@@ -418,7 +418,7 @@ public class AbstrTableTest {
             instance.odeber(T2.getA());
             
             TestClass[] result = new TestClass[4];     
-            Iterator it = instance.iterator(ETypProhl.HLOUBKA);
+            Iterator it = instance.vytvorIterator(ETypProhl.HLOUBKA);
             int i = 0;
             while (it.hasNext()) {
                 result[i] = (TestClass) it.next();
@@ -427,6 +427,92 @@ public class AbstrTableTest {
             
             TestClass[] expected = {T1, T3, T4, T5};
             assertArrayEquals(expected, result);
+        } catch (Exception ex) {
+            fail();
+        }
+    }
+    
+    @Test
+    public void test_01_select() {
+        try {
+            AbstrTable<Integer, TestClass> instance = new AbstrTable<>();
+            instance.vloz(T5.getA(), T5);
+            instance.vloz(T2.getA(), T2);
+            instance.vloz(T3.getA(), T3);
+            instance.vloz(T4.getA(), T4);
+            instance.vloz(T1.getA(), T1);
+            
+            TestClass result = instance.select(1);
+            
+            assertEquals(T1, result);
+            
+            result = instance.select(4);
+            
+            assertEquals(T4, result);
+            
+            instance.odeber(T4.getA());
+            
+            result = instance.select(4);
+            
+            assertEquals(T5, result);
+        } catch (Exception ex) {
+            fail();
+        }
+    }
+    
+    @Test
+    public void test_01_rank() {
+        try {
+            AbstrTable<Integer, TestClass> instance = new AbstrTable<>();
+            instance.vloz(T5.getA(), T5);
+            instance.vloz(T2.getA(), T2);
+            instance.vloz(T3.getA(), T3);
+            instance.vloz(T4.getA(), T4);
+            instance.vloz(T1.getA(), T1);
+            
+            int result = instance.rank(T3.getA());
+            
+            assertEquals(3, result);
+            
+            result = instance.rank(T5.getA());
+            
+            assertEquals(5, result);
+            
+            instance.odeber(T3.getA());
+            
+            result = instance.rank(T4.getA());
+            
+            assertEquals(3, result);
+        } catch (Exception ex) {
+            fail();
+        }
+    }
+    
+    @Test
+    public void test_01_pocetPotomku() {
+        try {
+//            AbstrTable<Integer, TestClass> instance = new AbstrTable<>();
+//            instance.vloz(T5.getA(), T5);
+//            instance.vloz(T2.getA(), T2);
+//            instance.vloz(T3.getA(), T3);
+//            instance.vloz(T4.getA(), T4);
+//            instance.vloz(T1.getA(), T1);
+//            
+//            TestClass result;
+//            int pocetPotomku;
+//            
+//            Iterator it = instance.iterator(ETypProhl.HLOUBKA);
+//            int i = 0;
+//            while (it.hasNext()) {
+//                result = (TestClass) it.next();
+//                if (result.equals(T3)) {
+//                    
+//                }
+//                i++;
+//            }
+//            
+//            
+//            assertEquals(3, result);
         } catch (Exception ex) {
             fail();
         }

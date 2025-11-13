@@ -68,6 +68,7 @@ public class AbstrTable<K extends Comparable<K>, V> implements IAbstrTable<K, V>
                     current = current.left;
                 } else {
                     current.value = value;
+                    break;
                 }
             }
         }
@@ -79,7 +80,7 @@ public class AbstrTable<K extends Comparable<K>, V> implements IAbstrTable<K, V>
         keyNeniNull(key);
 
         if (najdi(key) == null) {
-            return null;
+            return (V) new NoSuchElementException();
         }
         if (root.right == null && root.left == null) {
             zrus();
@@ -246,7 +247,7 @@ public class AbstrTable<K extends Comparable<K>, V> implements IAbstrTable<K, V>
     }
 
     @Override
-    public Iterator iterator(ETypProhl typ) {
+    public Iterator vytvorIterator(ETypProhl typ) {
         switch (typ) {
             case SIRKA -> {
                 AbstrFIFO<Node<K, V>> abstrFIFO = new AbstrFIFO<>();
