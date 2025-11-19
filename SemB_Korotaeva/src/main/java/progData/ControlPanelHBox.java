@@ -368,6 +368,7 @@ public class ControlPanelHBox {
                 alert.setContentText("Seznam je prazdný.");
                 alert.showAndWait();
             }
+            zpristupniOblast.getSelectionModel().clearSelection();
         });
     }
 
@@ -398,6 +399,7 @@ public class ControlPanelHBox {
                                 alert.showAndWait();
                             } else {
                                 spravaOblasti.odeberZaznam(zaznam);
+                                aktualniOblast = spravaOblasti.zpristupniOblast(EnumPozice.AKTUALNI);
                                 vyplneniListu();
                                 vyplneniZaznamu();
                             }

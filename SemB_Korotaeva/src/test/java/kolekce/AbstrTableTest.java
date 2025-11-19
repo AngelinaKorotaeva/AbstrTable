@@ -42,7 +42,10 @@ public class AbstrTableTest {
     private final TestClass T7 = new TestClass(7);
     private final TestClass T8 = new TestClass(8);
     private final TestClass T9 = new TestClass(9);
-  
+    private final TestClass T31 = new TestClass(31);
+    private final TestClass T92 = new TestClass(92);
+    private final TestClass T50 = new TestClass(50);
+    private final TestClass T77 = new TestClass(77);
 
     public AbstrTableTest() {
     }
@@ -134,6 +137,31 @@ public class AbstrTableTest {
             }
             
             TestClass[] expected = {T1, T2, T3, T5, T8, T9};           
+            assertArrayEquals(expected, result);
+        } catch (Exception ex) {
+            fail();
+        }
+    }
+    
+    @Test
+    public void test_03_Vloz() {
+        try {
+            AbstrTable<Integer, TestClass> instance = new AbstrTable<>();
+            instance.vloz(T5.getA(), T5);
+            instance.vloz(T50.getA(), T50);
+            instance.vloz(T77.getA(), T77);
+            instance.vloz(T92.getA(), T92);
+            instance.vloz(T31.getA(), T31);
+            instance.vloz(T1.getA(), T1);
+            TestClass[] result = new TestClass[6];     
+            Iterator it = instance.vytvorIterator(ETypProhl.SIRKA);
+            int i = 0;
+            while (it.hasNext()) {
+                result[i] = (TestClass) it.next();
+                i++;
+            }
+            
+            TestClass[] expected = {T5, T1, T50, T31, T77, T92};           
             assertArrayEquals(expected, result);
         } catch (Exception ex) {
             fail();

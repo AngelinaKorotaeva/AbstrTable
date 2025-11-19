@@ -79,116 +79,94 @@ public class AbstrTable<K extends Comparable<K>, V> implements IAbstrTable<K, V>
         prazdnySeznam();
         keyNeniNull(key);
 
-        if (najdi(key) == null) {
-            return (V) new NoSuchElementException();
+        Node<K, V> current = root;
+        Node<K, V> parent = null;
+        
+        V odebranyPrvek = current.value;
+
+        if (current == null) {
+            throw new NoSuchElementException();
         }
         if (root.right == null && root.left == null) {
             zrus();
+            return odebranyPrvek;
         }
-        Node<K, V> odebranyPrvek = null;
-
-        Node<K, V> current = root;
-        Node<K, V> parent = root;
 
         while (current != null) {
             int keyCislo = key.compareTo(current.key);
             current.pocetPotomku--;
+
+            if (keyCislo == 0) {
+                break;
+            }
+
+            parent = current;
+
             if (keyCislo > 0) {
-                parent = current;
                 current = current.right;
-            } else if (keyCislo < 0) {
-                parent = current;
+            } else {
                 current = current.left;
+            }
+        }
+
+        if (current == null) {
+            throw new NoSuchElementException();
+        }
+        
+        odebranyPrvek = current.value;
+
+        if (current.right == null && current.left == null) {
+            if (parent.right == current) {
+                parent.right = null;
             } else {
-                odebranyPrvek = current;
-                boolean parentMaChild = true;
-                while (parentMaChild) {
-                    Node<K, V> child = current;
-                    if (current.right == null && current.left == null) {
-                        if (parent.right == current) {
-                            parent.right = null;
-                            parent.pocetPotomku--;
-                            return odebranyPrvek.value;
-                        } else {
-                            parent.left = null;
-                            parent.pocetPotomku--;
-                            return odebranyPrvek.value;
-                        }
-                    } else {
-                        if (current.right != null && current.left != null) {
-                            boolean nextZmena = false;
-                            AbstrLIFO<Node<K, V>> lifo = new AbstrLIFO<>();
-                            Node<K, V> node = root;
-                            while (node != null || !lifo.jePrazdny()) {
-                                while (node != null) {
-                                    lifo.vloz(node);
-                                    node = node.left;
-                                }
-                                Node<K, V> data = lifo.odeber();
-                                if (nextZmena) {
-                                    parent = parentPrvka(data);
-                                    current.value = data.value;
-                                    current.key = data.key;
-                                    current = data;
-                                    break;
-                                }
-                                if (data == current) {
-                                    nextZmena = true;
-                                }
-                                node = data.right;
-                            }
-                        } else if (current.right != null || current.left != null) {
-                            if (current.right == null) {
-                                child = current.left;
-                                if (parent.left == current) {
-                                    parent.left = child;
-                                    parent.pocetPotomku--;
-                                } else {
-                                    parent.right = child;
-                                    parent.pocetPotomku--;
-                                }
-                                if (child.left == null && child.right == null) {
-                                    current.left = null;
-                                }
-                                return odebranyPrvek.value;
-                            } else {
-                                child = current.right;
-                                if (parent.left == current) {
-                                    parent.left = child;
-                                } else {
-                                    parent.right = child;
-                                }
-                                if (child.left == null && child.right == null) {
-                                    current.right = null;
-                                }
-                                return odebranyPrvek.value;
-                            }
-                        }
-                    }
+                parent.left = null;
+            }
+            return odebranyPrvek;
+        } else {
+            Node<K, V> child = current;
+            if (current.right != null && current.left != null) {
+
+                Node<K, V> oldValue = current;
+                Node<K, V> newValue = current.right;
+                
+                Node<K, V> newValueParent = current;
+
+                while (newValue.left != null) {
+                    newValueParent = newValue;
+                    newValue = newValue.left;
                 }
+
+                current.key = newValue.key;
+                current.value = newValue.value;
+
+                child = newValue.right;
+
+                if (newValueParent.left == newValue) {
+                    newValueParent.left = child;
+                } else {
+                    newValueParent.right = child;
+                }
+
+                return odebranyPrvek;
+            } else if (current.right != null || current.left != null) {
+                if (current.right == null) {
+                    child = current.left;
+                } else {
+                    child = current.right;
+                }
+
+                if (parent == null) {
+                    root = child;
+                } else if (parent.left == current) {
+                    parent.left = child;
+                } else {
+                    parent.right = child;
+                }
+
+                return odebranyPrvek;
             }
         }
 
-        return null;
-    }
-
-    private Node<K, V> parentPrvka(Node<K, V> prvek) {
-        Node<K, V> novyParent = root;
-
-        Node<K, V> node = root;
-
-        while (node != null) {
-            int keyCislo = prvek.key.compareTo(node.key);
-            if (keyCislo > 0) {
-                novyParent = node;
-                node = node.right;
-            } else if (keyCislo < 0) {
-                novyParent = node;
-                node = node.left;
-            } else {
-                return novyParent;
-            }
-        }
         return null;
     }
 

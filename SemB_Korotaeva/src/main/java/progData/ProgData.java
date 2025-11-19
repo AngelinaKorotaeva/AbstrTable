@@ -10,8 +10,8 @@ public class ProgData extends Application {
     private static final SpravaOblasti spravaOblasti = new SpravaOblasti();
     private ControlPanelHBox hBox;
     
-    private static final int ROOT_WIDTH = 1000;
-    private static final int ROOT_HEIGHT = 480;
+    private static final int ROOT_WIDTH = 700;
+    private static final int ROOT_HEIGHT = 500;
     private static final int SPACING = 10;
     
     public static void main(String[] args) {

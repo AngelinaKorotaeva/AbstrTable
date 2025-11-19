@@ -20,12 +20,11 @@ public interface ISpravaOblasti extends Iterable{
     void vlozZaznam(Zaznam zaznam);
     
     /**
-     * Vloží záznam do aktuální oblasti na požadovanou pozici.
+     * Vloží záznam do aktuální oblasti.
      * @param zaznam
-     * @param pozice
      * @throws - V případě že je oblast zaplněna, vyvolá výjimku.
      **/
-    //void vlozZaznamPozice(Zaznam zaznam, EnumPozice pozice);
+    void vlozZaznamPozice(Zaznam zaznam);
     
     /**
      * Při odebírání záznamu z BVS odebere odkaz na stejný záznam i z příslušného ADL.

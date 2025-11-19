@@ -4,6 +4,7 @@ import abstrDoubleList.AbstrDoubleList;
 import abstrDoubleList.IAbstrDoubleList;
 import spravaZaznamu.Zaznam;
 import enumClass.EnumPozice;
+import generator.Generator;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.function.Consumer;
@@ -13,22 +14,24 @@ public class SpravaOblasti implements ISpravaOblasti {
     private final IAbstrDoubleList<Oblast> oblasti;
     private Consumer<String> errorLog;
     private int ID_oblast;
-    private int KAPACITA_OBLASTI = 10;
     private Oblast aktualniOblast;
+    private Generator generator;
 
     public SpravaOblasti() {
+        this.generator = new Generator();
         this.oblasti = new AbstrDoubleList<>();
         ID_oblast = 1;
-        Oblast novaOblast = new Oblast(ID_oblast, KAPACITA_OBLASTI);
+        Oblast novaOblast = generator.generateOblast(ID_oblast);
         ID_oblast++;
         vlozOblast(novaOblast, EnumPozice.PRVNI);
         aktualniOblast = null;
     }
 
     public SpravaOblasti(IAbstrDoubleList<Oblast> oblasti) {
+        this.generator = new Generator();
         this.oblasti = oblasti;
         ID_oblast = 1;
-        Oblast novaOblast = new Oblast(ID_oblast, KAPACITA_OBLASTI);
+        Oblast novaOblast = generator.generateOblast(ID_oblast);
         ID_oblast++;
         vlozOblast(novaOblast, EnumPozice.PRVNI);
         aktualniOblast = null;
@@ -111,10 +114,6 @@ public class SpravaOblasti implements ISpravaOblasti {
         if (zaznam == null) {
             throw new NullPointerException();
         }
-        
-        if (aktualniOblast == null) {
-            return;
-        }
 
         Random rand = new Random();
         int kapacita = rand.nextInt(7) + 2;
@@ -140,6 +139,11 @@ public class SpravaOblasti implements ISpravaOblasti {
     }
     
     @Override
+    public void vlozZaznamPozice(Zaznam zaznam){
+        aktualniOblast.getZaznamy().vloz(zaznam.getID(), zaznam);
+    }
+    
+    @Override
     public void odeberZaznam(Zaznam zaznam) {
         if (zaznam == null) {
             throw new NullPointerException();
@@ -147,113 +151,12 @@ public class SpravaOblasti implements ISpravaOblasti {
         
         if (aktualniOblast != null) {
             aktualniOblast.getZaznamy().odeber(zaznam.getID());
-            
             if (aktualniOblast.getAktKapacita() == 0) {
                 odeberOblast(EnumPozice.AKTUALNI);
                 aktualniOblast = oblasti.zpristupniPrvni();
             }
         }
     }
-
-//    @Override
-//    public void vlozZaznamPozice(Zaznam zaznam, EnumPozice pozice) {
-//        if (zaznam == null) {
-//            throw new NullPointerException();
-//        }
-//        if (oblasti.zpristupniAktualni() == null || oblasti.jePrazdny()) {
-//            throw new NullPointerException();
-//        }
-//        if (oblasti.zpristupniAktualni().getMaxKapacita() == oblasti.zpristupniAktualni().getAktKapacita()) {
-//            throw new NoSuchElementException();
-//        }
-//
-//        boolean vlozeno = false;
-//        Iterator<Oblast> iterator = oblasti.iterator();
-//
-//        while (iterator.hasNext()) {
-//            Oblast oblast = iterator.next();
-//            if (oblast == oblasti.zpristupniAktualni()) {
-//                switch (pozice) {
-//                    case PRVNI -> {
-//                        oblast.getZaznamy().vlozZaznam(zaznam, EnumPozice.PRVNI);
-//                        break;
-//                    }
-//                    case POSLEDNI -> {
-//                        oblast.getZaznamy().vlozZaznam(zaznam, EnumPozice.POSLEDNI);
-//                        break;
-//                    }
-//                    case PREDCHUDCE -> {
-//                        oblast.getZaznamy().vlozZaznam(zaznam, EnumPozice.PREDCHUDCE);
-//                        break;
-//                    }
-//                    case NASLEDNIK -> {
-//                        oblast.getZaznamy().vlozZaznam(zaznam, EnumPozice.NASLEDNIK);
-//                        break;
-//                    }
-//                }
-//            }
-//            vlozeno = true;
-//        }
-//
-//        if (!vlozeno) {
-//            throw new NullPointerException();
-//        }
-//    }
-
-//    @Override
-//    public Zaznam zpristupniZaznam(EnumPozice pozice) {
-//        Zaznam zaznam = null;
-//        Oblast oblast = oblasti.zpristupniAktualni();
-//        if (oblast != null) {
-//            switch (pozice) {
-//                case PRVNI -> {
-//                    zaznam = oblast.getZaznamy().zpristupniZaznam(EnumPozice.PRVNI);
-//                }
-//                case POSLEDNI -> {
-//                    zaznam = oblast.getZaznamy().zpristupniZaznam(EnumPozice.POSLEDNI);
-//                }
-//                case AKTUALNI -> {
-//                    zaznam = oblast.getZaznamy().zpristupniZaznam(EnumPozice.AKTUALNI);
-//                }
-//                case PREDCHUDCE -> {
-//                    zaznam = oblast.getZaznamy().zpristupniZaznam(EnumPozice.PREDCHUDCE);
-//                }
-//                case NASLEDNIK -> {
-//                    zaznam = oblast.getZaznamy().zpristupniZaznam(EnumPozice.NASLEDNIK);
-//                }
-//            }
-//        }
-//        return zaznam;
-//    }
-
-//    @Override
-//    public Zaznam odeberZaznam(EnumPozice pozice) {
-//        Zaznam zaznam = null;
-//        Oblast oblast = oblasti.zpristupniAktualni();
-//        if (oblast != null) {
-//            switch (pozice) {
-//                case PRVNI -> {
-//                    zaznam = oblast.getZaznamy().odeberZaznam(EnumPozice.PRVNI);
-//                }
-//                case POSLEDNI -> {
-//                    zaznam = oblast.getZaznamy().odeberZaznam(EnumPozice.POSLEDNI);
-//                }
-//                case AKTUALNI -> {
-//                    zaznam = oblast.getZaznamy().odeberZaznam(EnumPozice.AKTUALNI);
-//                }
-//                case PREDCHUDCE -> {
-//                    zaznam = oblast.getZaznamy().odeberZaznam(EnumPozice.PREDCHUDCE);
-//                }
-//                case NASLEDNIK -> {
-//                    zaznam = oblast.getZaznamy().odeberZaznam(EnumPozice.NASLEDNIK);
-//                }
-//            }
-//            if (oblast.getAktKapacita() == 0 && zaznam != null) {
-//                odeberOblast(EnumPozice.AKTUALNI);
-//            }
-//        }
-//        return zaznam;
-//    }
 
     @Override
     public void zrus() {
