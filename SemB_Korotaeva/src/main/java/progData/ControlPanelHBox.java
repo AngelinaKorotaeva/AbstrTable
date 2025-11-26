@@ -56,7 +56,7 @@ public class ControlPanelHBox {
 
     private final Label labelZpristupniOblast = new Label("Zpristupni oblast:");
     private final Label labelSeznamOblasti = new Label("Seznam oblasti:");
-    private final Label labelZaznamy = new Label("Prochazeni stromu podle typu:");
+    private final Label labelZaznamy = new Label("Prochazeni stromu podle typu (SIRKA/HLOUBKA) :");
 
     private static final int ROOT_WIDTH = 900;
     private static final int ROOT_HEIGHT = 430;
@@ -157,11 +157,12 @@ public class ControlPanelHBox {
 
         GridPane gridCenter = new GridPane();
         gridCenter.setAlignment(Pos.CENTER);
-        gridCenter.add(listZaznamy, 0, 0);
-        gridCenter.add(hboxPanel1, 0, 1);
-        gridCenter.add(hboxPanel2, 0, 2);
-        gridCenter.add(hboxPanel3, 0, 3);
-        gridCenter.add(hboxPanel4, 0, 4);
+        gridCenter.add(labelZaznamy, 0, 0);
+        gridCenter.add(listZaznamy, 0, 1);
+        gridCenter.add(hboxPanel1, 0, 2);
+        gridCenter.add(hboxPanel2, 0, 3);
+        gridCenter.add(hboxPanel3, 0, 4);
+        gridCenter.add(hboxPanel4, 0, 5);
         gridCenter.setVgap(SPACING);
         gridCenter.setHgap(SPACING);
         gridCenter.setPadding(new Insets(SPACING, SPACING, SPACING, SPACING));
@@ -252,7 +253,9 @@ public class ControlPanelHBox {
                                 case "First-fit" -> {
                                     spravaOblasti.vlozZaznam(zaznam);
                                     vyplneniListu();
-                                    vyplneniZaznamu();
+                                    if (aktualniOblast != null) {
+                                        vyplneniZaznamu();
+                                    }
                                 }
                                 case "Do akt. oblasti" -> {
                                     if (aktualniOblast == null) {
