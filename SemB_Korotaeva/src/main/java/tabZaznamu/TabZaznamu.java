@@ -4,7 +4,6 @@ import abstrTable.AbstrTable;
 import abstrTable.IAbstrTable;
 import enumClass.ETypProhl;
 import java.util.Iterator;
-import spravaZaznamu.Zaznam;
 
 public class TabZaznamu implements ITabZaznamu{
     

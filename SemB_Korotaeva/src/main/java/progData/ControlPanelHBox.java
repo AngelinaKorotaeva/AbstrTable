@@ -28,7 +28,7 @@ import praceZSoubory.CteniZText;
 import praceZSoubory.ZapisDoText;
 import spravaOblasti.Oblast;
 import spravaOblasti.SpravaOblasti;
-import spravaZaznamu.Zaznam;
+import tabZaznamu.Zaznam;
 
 public class ControlPanelHBox {
 

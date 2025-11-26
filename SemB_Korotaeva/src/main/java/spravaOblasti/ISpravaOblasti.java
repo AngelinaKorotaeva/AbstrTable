@@ -1,6 +1,6 @@
 package spravaOblasti;
 
-import spravaZaznamu.Zaznam;
+import tabZaznamu.Zaznam;
 import enumClass.EnumPozice;
 
 public interface ISpravaOblasti extends Iterable{

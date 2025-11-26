@@ -1,4 +1,4 @@
-package spravaZaznamu;
+package tabZaznamu;
 
 public class Zaznam {
     private int ID;

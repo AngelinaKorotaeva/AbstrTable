@@ -2,7 +2,6 @@ package tabZaznamu;
 
 import enumClass.ETypProhl;
 import java.util.Iterator;
-import spravaZaznamu.Zaznam;
 
 public interface ITabZaznamu<K extends Comparable<K>, V>{
     

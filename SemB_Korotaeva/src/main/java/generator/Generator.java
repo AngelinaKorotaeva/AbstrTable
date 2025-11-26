@@ -5,7 +5,7 @@ import abstrDoubleList.IAbstrDoubleList;
 import enumClass.EnumPozice;
 import java.util.NoSuchElementException;
 import java.util.Random;
-import spravaZaznamu.Zaznam;
+import tabZaznamu.Zaznam;
 import spravaOblasti.Oblast;
 import spravaOblasti.SpravaOblasti;
 

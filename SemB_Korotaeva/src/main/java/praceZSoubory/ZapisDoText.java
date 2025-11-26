@@ -9,7 +9,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import spravaOblasti.Oblast;
 import spravaOblasti.SpravaOblasti;
-import spravaZaznamu.Zaznam;
+import tabZaznamu.Zaznam;
 
 public class ZapisDoText {
 

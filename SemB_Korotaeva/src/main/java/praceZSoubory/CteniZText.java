@@ -5,7 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import spravaOblasti.Oblast;
 import spravaOblasti.SpravaOblasti;
-import spravaZaznamu.Zaznam;
+import tabZaznamu.Zaznam;
 
 public class CteniZText {
     

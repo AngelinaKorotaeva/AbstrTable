@@ -2,7 +2,7 @@ package spravaOblasti;
 
 import abstrDoubleList.AbstrDoubleList;
 import abstrDoubleList.IAbstrDoubleList;
-import spravaZaznamu.Zaznam;
+import tabZaznamu.Zaznam;
 import enumClass.EnumPozice;
 import generator.Generator;
 import java.util.Iterator;
