@@ -30,9 +30,6 @@ public class AbstrTableTest {
         
 
     }
-    /***
-     * Sada instancí testovací třídy pro ověření implementace třídy SpojovySeznam
-     */
     private final TestClass T1 = new TestClass(1);
     private final TestClass T2 = new TestClass(2);
     private final TestClass T3 = new TestClass(3);
